@@ -1,6 +1,8 @@
 using DotNetEnv;
 using back.Data;
 using Microsoft.EntityFrameworkCore;
+using back.Interfaces;
+using back.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +10,6 @@ Env.Load();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
@@ -25,13 +26,9 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(Env.GetString("CONNECTION_STRING"));
 });
 
-var app = builder.Build();
+builder.Services.AddScoped<IPlaygroundRepository, PlaygroundRepository>();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigins");
