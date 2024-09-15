@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { geoCodeApi } from "./geoCodeApi";
+import { geoCodeApi } from "../api/geoCodeApi";
 
 export const getCodeSlice = createSlice({
   name: "geoCodeData",

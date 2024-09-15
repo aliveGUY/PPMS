@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
-import { useGeocodeMutation } from "../../state/geoCodeApi";
-import { rememberAddressInputValue } from "../../state/geoCodeSlice";
+import { useGeocodeMutation } from "../../state/api/geoCodeApi";
+import { rememberAddressInputValue } from "../../state/slice/geoCodeSlice";
 import { useDispatch } from "react-redux";
 
 const AddressTextField = () => {
