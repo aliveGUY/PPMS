@@ -2,7 +2,8 @@ import React, { useCallback } from "react";
 import { useGeocodeMutation } from "../../state/api/geoCodeApi";
 import { rememberAddressInputValue } from "../../state/slice/geoCodeSlice";
 import { useDispatch } from "react-redux";
-import { FilledInput } from "@mui/material";
+import { IconButton, OutlinedInput } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 const AddressTextField = () => {
   const dispatch = useDispatch();
@@ -14,11 +15,14 @@ const AddressTextField = () => {
   }, []);
 
   return (
-    <FilledInput
+    <OutlinedInput
       onChange={handleInputChange}
-      id="filled-basic"
-      placeholder="Enter Address"
-      variant=""
+      placeholder="Enter street address"
+      endAdornment={
+        <IconButton color="primary">
+          <SearchIcon />
+        </IconButton>
+      }
     />
   );
 };
