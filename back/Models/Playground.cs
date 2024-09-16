@@ -23,7 +23,7 @@ namespace back.Models
         // Navigation properties
         public ICollection<ScheduledSession> ScheduledEvents { get; set; } = new List<ScheduledSession>();
         public ICollection<FavouriteList> FavouriteLists { get; set; } = new List<FavouriteList>();
-        public ICollection<Moderator> Moderators { get; set; } = new List<Moderator>();
+        public ICollection<ModeratorList> Moderators { get; set; } = new List<ModeratorList>();
         public ICollection<Voting> Votings { get; set; } = new List<Voting>();
     }
 

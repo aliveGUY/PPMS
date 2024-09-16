@@ -2,10 +2,11 @@ import React, { useCallback } from "react";
 import { useGeocodeMutation } from "../../state/api/geoCodeApi";
 import { rememberAddressInputValue } from "../../state/slice/geoCodeSlice";
 import { useDispatch } from "react-redux";
+import { FilledInput } from "@mui/material";
 
 const AddressTextField = () => {
   const dispatch = useDispatch();
-  const [geocode, { isLoading }] = useGeocodeMutation();
+  const [geocode] = useGeocodeMutation();
 
   const handleInputChange = useCallback((e) => {
     geocode(e.target.value);
@@ -13,10 +14,12 @@ const AddressTextField = () => {
   }, []);
 
   return (
-    <div>
-      <input onChange={handleInputChange} type="text" />
-      {isLoading && <span>loading</span>}
-    </div>
+    <FilledInput
+      onChange={handleInputChange}
+      id="filled-basic"
+      placeholder="Enter Address"
+      variant=""
+    />
   );
 };
 

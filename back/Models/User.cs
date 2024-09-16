@@ -14,8 +14,7 @@ namespace back.Models
 
         // Navigation Properties
         public ICollection<FavouriteList> FavouriteLists { get; set; } = new List<FavouriteList>();
-        public ICollection<Moderator> Moderators { get; set; } = new List<Moderator>();
+        public ICollection<ModeratorList> ModeratorLists { get; set; } = new List<ModeratorList>();
         public ICollection<Vote> Votes { get; set; } = new List<Vote>();
-        public ICollection<ScheduledSessionParticipants> ScheduledEventParticipants { get; set; } = new List<ScheduledSessionParticipants>();
     }
 }

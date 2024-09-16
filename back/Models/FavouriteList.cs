@@ -10,10 +10,11 @@ namespace back.Models
         public int Id { get; set; }
 
         // Foreign Keys and Navigation Properties
-        public int UserId { get; set; }
+        public required int UserId { get; set; }
         public required User User { get; set; }
 
-        public int PlaygroundId { get; set; }
-        public required Playground Playground { get; set; }
+        public ICollection<int> PlaygroundId { get; set; } = new List<int>();
+        public ICollection<Playground> Playground { get; set; } = new List<Playground>();
+
     }
 }

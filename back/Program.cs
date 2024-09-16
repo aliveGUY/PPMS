@@ -3,6 +3,7 @@ using back.Data;
 using Microsoft.EntityFrameworkCore;
 using back.Interfaces;
 using back.Repository;
+using back.Properties;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,12 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(Env.GetString("CONNECTION_STRING"));
 });
 
+builder.Services.AddScoped<IFavouriteListRepository, FavouriteListRepository>();
+builder.Services.AddScoped<IModeratorListRepository, ModeratorListRepository>();
 builder.Services.AddScoped<IPlaygroundRepository, PlaygroundRepository>();
+builder.Services.AddScoped<IScheduledSessionRepository, ScheduledSessionRepository>();
+builder.Services.AddScoped<IVoteRepository, VoteRepository>();
+builder.Services.AddScoped<IVotingRepository, VotingRepository>();
 
 var app = builder.Build();
 

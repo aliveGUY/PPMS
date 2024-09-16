@@ -22,6 +22,36 @@ namespace back.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FavouriteListPlayground", b =>
+                {
+                    b.Property<int>("FavouriteListsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlaygroundId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FavouriteListsId", "PlaygroundId");
+
+                    b.HasIndex("PlaygroundId");
+
+                    b.ToTable("FavouriteListPlayground");
+                });
+
+            modelBuilder.Entity("ModeratorListUser", b =>
+                {
+                    b.Property<int>("ModeratorListsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ModeratorListsId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ModeratorListUser");
+                });
+
             modelBuilder.Entity("back.Models.FavouriteList", b =>
                 {
                     b.Property<int>("Id")
@@ -30,22 +60,21 @@ namespace back.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PlaygroundId")
-                        .HasColumnType("int");
+                    b.Property<string>("PlaygroundId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlaygroundId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("FavouriteList");
                 });
 
-            modelBuilder.Entity("back.Models.Moderator", b =>
+            modelBuilder.Entity("back.Models.ModeratorList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,16 +85,15 @@ namespace back.Migrations
                     b.Property<int>("PlaygroundId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PlaygroundId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Moderator");
+                    b.ToTable("ModeratorList");
                 });
 
             modelBuilder.Entity("back.Models.Playground", b =>
@@ -129,6 +157,10 @@ namespace back.Migrations
                     b.Property<int>("EventType")
                         .HasColumnType("int");
 
+                    b.Property<string>("ParticipantIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PlaygroundId")
                         .HasColumnType("int");
 
@@ -143,32 +175,6 @@ namespace back.Migrations
                     b.HasIndex("PlaygroundId");
 
                     b.ToTable("ScheduledSession");
-                });
-
-            modelBuilder.Entity("back.Models.ScheduledSessionParticipants", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ScheduledSessionParticipants");
                 });
 
             modelBuilder.Entity("back.Models.User", b =>
@@ -191,7 +197,12 @@ namespace back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ScheduledSessionId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ScheduledSessionId");
 
                     b.ToTable("User");
                 });
@@ -247,26 +258,48 @@ namespace back.Migrations
                     b.ToTable("Voting");
                 });
 
-            modelBuilder.Entity("back.Models.FavouriteList", b =>
+            modelBuilder.Entity("FavouriteListPlayground", b =>
                 {
-                    b.HasOne("back.Models.Playground", "Playground")
-                        .WithMany("FavouriteLists")
-                        .HasForeignKey("PlaygroundId")
+                    b.HasOne("back.Models.FavouriteList", null)
+                        .WithMany()
+                        .HasForeignKey("FavouriteListsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("back.Models.Playground", null)
+                        .WithMany()
+                        .HasForeignKey("PlaygroundId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ModeratorListUser", b =>
+                {
+                    b.HasOne("back.Models.ModeratorList", null)
+                        .WithMany()
+                        .HasForeignKey("ModeratorListsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("back.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("back.Models.FavouriteList", b =>
+                {
                     b.HasOne("back.Models.User", "User")
                         .WithMany("FavouriteLists")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Playground");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("back.Models.Moderator", b =>
+            modelBuilder.Entity("back.Models.ModeratorList", b =>
                 {
                     b.HasOne("back.Models.Playground", "Playground")
                         .WithMany("Moderators")
@@ -274,15 +307,7 @@ namespace back.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("back.Models.User", "User")
-                        .WithMany("Moderators")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Playground");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("back.Models.ScheduledSession", b =>
@@ -296,23 +321,11 @@ namespace back.Migrations
                     b.Navigation("Playground");
                 });
 
-            modelBuilder.Entity("back.Models.ScheduledSessionParticipants", b =>
+            modelBuilder.Entity("back.Models.User", b =>
                 {
-                    b.HasOne("back.Models.ScheduledSession", "Event")
+                    b.HasOne("back.Models.ScheduledSession", null)
                         .WithMany("Participants")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("back.Models.User", "User")
-                        .WithMany("ScheduledEventParticipants")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-
-                    b.Navigation("User");
+                        .HasForeignKey("ScheduledSessionId");
                 });
 
             modelBuilder.Entity("back.Models.Vote", b =>
@@ -347,8 +360,6 @@ namespace back.Migrations
 
             modelBuilder.Entity("back.Models.Playground", b =>
                 {
-                    b.Navigation("FavouriteLists");
-
                     b.Navigation("Moderators");
 
                     b.Navigation("ScheduledEvents");
@@ -364,10 +375,6 @@ namespace back.Migrations
             modelBuilder.Entity("back.Models.User", b =>
                 {
                     b.Navigation("FavouriteLists");
-
-                    b.Navigation("Moderators");
-
-                    b.Navigation("ScheduledEventParticipants");
 
                     b.Navigation("Votes");
                 });

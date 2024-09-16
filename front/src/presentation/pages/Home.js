@@ -1,11 +1,10 @@
 import React from "react";
-import AddressInput from "../components/AddressInput";
+import Header from "../components/Home/Header";
 
 const Home = () => {
-
   return (
     <div>
-      <AddressInput />
+      <Header />
     </div>
   );
 };

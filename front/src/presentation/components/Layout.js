@@ -1,13 +1,13 @@
 import React from "react";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div>
+    <Box maxWidth={1400} px={2} mx="auto">
       <div>Navigation</div>
       <Outlet />
-      <div>Footer</div>
-    </div>
+    </Box>
   );
 };
 

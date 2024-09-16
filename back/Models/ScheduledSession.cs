@@ -9,7 +9,7 @@ namespace back.Models
 {
     public class ScheduledSession
     {
-          public int Id { get; set; }
+        public int Id { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Description { get; set; } = string.Empty;
@@ -17,9 +17,10 @@ namespace back.Models
         public EScheduleRepetition Repeat { get; set; }
 
         // Foreign Key and Navigation Property
-        public int PlaygroundId { get; set; }
+        public required int PlaygroundId { get; set; }
         public required Playground Playground { get; set; }
 
-        public ICollection<ScheduledSessionParticipants> Participants { get; set; } = new List<ScheduledSessionParticipants>();
+        public ICollection<int> ParticipantIds { get; set; } = new List<int>();
+        public ICollection<User> Participants { get; set; } = new List<User>();
     }
 }
