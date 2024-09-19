@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build ./back --no-restore
     - name: Test
-      run: dotnet tes ./backt --no-build --verbosity normal
+      run: dotnet test ./back --no-build --verbosity normal
