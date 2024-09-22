@@ -12,7 +12,7 @@ namespace back.Models
         public int Id { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public required string Title { get; set; }
         public EScheduleType EventType { get; set; }
         public EScheduleRepetition Repeat { get; set; }
 

@@ -1,0 +1,11 @@
+.calendar-day {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  grid-template-rows: repeat(24, minmax(60px, auto));
+
+  .cell {
+    border-bottom: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+  }
+}

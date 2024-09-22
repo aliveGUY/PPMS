@@ -6,10 +6,19 @@ export const backendApi = createApi({
     baseUrl: "http://localhost:8080",
   }),
   endpoints: (builder) => ({
-    getAllPlaygrounds: builder.query({
-      query: () => "/api/playground",
+    getPlaygrounds: builder.mutation({
+      query: ({ country, city, state, title }) => {
+        const params = new URLSearchParams();
+
+        if (title) params.append("title", title);
+        if (city) params.append("city", city);
+        if (state) params.append("state", state);
+        if (country) params.append("country", country);
+
+        return `/api/playground?${params.toString()}`;
+      },
     }),
   }),
 });
 
-export const { useGetAllPlaygroundsQuery } = backendApi;
+export const { useGetPlaygroundsMutation } = backendApi;

@@ -11,15 +11,22 @@ export const getCodeSlice = createSlice({
     rememberAddressInputValue: (state, { payload }) => {
       state.addressInputValue = payload;
     },
+
+    clearAddressState: (state) => {
+      state.addressSuggestions = [];
+      state.addressInputValue = "";
+    },
   },
   extraReducers: (builder) => {
     builder
       .addMatcher(
         geoCodeApi.endpoints.geocode.matchFulfilled,
         (state, { payload }) => {
-          const addressSuggestions = payload.items.map(
-            (address) => address.title
-          );
+          const addressSuggestions = payload.items.map((address) => ({
+            title: address.title,
+            address: address.address,
+          }));
+
           state.addressSuggestions = addressSuggestions;
           return state;
         }
@@ -34,4 +41,5 @@ export const getCodeSlice = createSlice({
   },
 });
 
-export const { rememberAddressInputValue } = getCodeSlice.actions;
+export const { rememberAddressInputValue, clearAddressState } =
+  getCodeSlice.actions;
