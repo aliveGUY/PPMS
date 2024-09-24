@@ -6,6 +6,7 @@ using back.Data;
 using back.DTOs.Playground;
 using back.Interfaces;
 using back.Mappers;
+using back.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back.Controllers
@@ -17,12 +18,52 @@ namespace back.Controllers
         private readonly IPlaygroundRepository _playgroundRepo = playgroundRepo;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetPlaygrounds(
+            [FromQuery] string? address,
+            [FromQuery] string? city,
+            [FromQuery] string? province,
+            [FromQuery] string? country)
         {
-            var playgrounds = await _playgroundRepo.GetAllAsync();
+            Console.WriteLine($"address: {address}\ncity: {city}\nprovince: {province}\ncountry: {country}");
+
+            IEnumerable<Playground> playgrounds = await _playgroundRepo.GetAllAsync();
+            string scope = "all";
+
+            if (!string.IsNullOrEmpty(address))
+            {
+                scope = "address";
+                playgrounds = await _playgroundRepo.SearchByAddressAsync(address);
+            }
+
+            if (!playgrounds.Any() && !string.IsNullOrEmpty(city))
+            {
+                scope = "city";
+                playgrounds = await _playgroundRepo.SearchByCityAsync(city);
+            }
+
+            if (!playgrounds.Any() && !string.IsNullOrEmpty(province))
+            {
+                scope = "province";
+                playgrounds = await _playgroundRepo.SearchByProvinceAsync(province);
+            }
+
+            if (!playgrounds.Any() && !string.IsNullOrEmpty(country))
+            {
+                scope = "country";
+                playgrounds = await _playgroundRepo.SearchByCountryAsync(country);
+            }
+
             var playgroundDtos = playgrounds.Select(s => s.ToPlaygroundDto());
-            return Ok(playgroundDtos);
+
+            var result = new SearchPlaygroundDto
+            {
+                Playgrounds = playgroundDtos,
+                Scope = scope
+            };
+
+            return Ok(result);
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)

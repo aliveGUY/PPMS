@@ -40,6 +40,35 @@ namespace back.Repository
             return await _context.Playground.FindAsync(id);
         }
 
+        public async Task<List<Playground>> SearchByAddressAsync(string address)
+        {
+            return await _context.Playground
+                .Where(p => p.Address.ToLower().Contains(address.ToLower()))
+                .ToListAsync();
+        }
+
+        public async Task<List<Playground>> SearchByCityAsync(string city)
+        {
+            return await _context.Playground
+                .Where(p => p.City.ToLower().Contains(city.ToLower()))
+                .ToListAsync();
+        }
+
+        public async Task<List<Playground>> SearchByProvinceAsync(string province)
+        {
+            return await _context.Playground
+                .Where(p => p.Province.ToLower().Contains(province.ToLower()))
+                .ToListAsync();
+        }
+
+        public async Task<List<Playground>> SearchByCountryAsync(string country)
+        {
+            return await _context.Playground
+                .Where(p => p.Country.ToLower().Contains(country.ToLower()))
+                .ToListAsync();
+        }
+
+
         public async Task<Playground?> UpdateAsync(int id, UpdatePlaygroundDto playgroundDto)
         {
             var playgroundModel = await _context.Playground.FirstOrDefaultAsync(x => x.Id == id);

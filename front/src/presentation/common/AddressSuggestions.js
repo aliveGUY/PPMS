@@ -1,19 +1,13 @@
 import { Button, Paper, Stack } from "@mui/material";
-import React, { useCallback } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetPlaygroundsMutation } from "../../state/api/backendApi";
-
-const SuggestionButton = ({ onClick, suggestion, children, ...props }) => {
-  const handleClick = useCallback(() => onClick(suggestion), []);
-  return (
-    <Button onClick={handleClick} {...props}>
-      {children}
-    </Button>
-  );
-};
+import { rememberSearchParams } from "../../state/slice/playgroundsSlice";
+import { clearAddressState } from "../../state/slice/geoCodeSlice";
 
 const AddressSuggestions = () => {
   const [getPlaygrounds] = useGetPlaygroundsMutation();
+  const dispatch = useDispatch();
   const addressSuggestions = useSelector(
     (state) => state.geoCodeData.addressSuggestions
   );
@@ -23,17 +17,19 @@ const AddressSuggestions = () => {
   const searchPlaygrounds = (suggestion) => {
     const {
       title,
-      address: { countryName, country, city, state },
+      address: { countryName, country, city },
     } = suggestion;
 
-    console.log({ countryName, country, city, state });
-    console.log({ suggestion });
-    getPlaygrounds({
-      title,
-      country: country || countryName,
-      city,
-      state,
-    });
+    const params = {
+      address: title,
+      city: city,
+      province: country,
+      country: countryName,
+    };
+
+    getPlaygrounds(params);
+    dispatch(rememberSearchParams(params));
+    dispatch(clearAddressState());
   };
 
   return (
@@ -44,6 +40,7 @@ const AddressSuggestions = () => {
         padding: "16px 8px",
         right: 0,
         left: 0,
+        zIndex: 10,
       }}
     >
       <Stack>

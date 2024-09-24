@@ -7,12 +7,12 @@ export const backendApi = createApi({
   }),
   endpoints: (builder) => ({
     getPlaygrounds: builder.mutation({
-      query: ({ country, city, state, title }) => {
+      query: ({ address, city, province, country }) => {
         const params = new URLSearchParams();
 
-        if (title) params.append("title", title);
+        if (address) params.append("address", address);
         if (city) params.append("city", city);
-        if (state) params.append("state", state);
+        if (province) params.append("province", province);
         if (country) params.append("country", country);
 
         return `/api/playground?${params.toString()}`;
