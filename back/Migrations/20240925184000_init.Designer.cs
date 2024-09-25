@@ -12,8 +12,8 @@ using back.Data;
 namespace back.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240924222031_extendPlaygroundAddress")]
-    partial class extendPlaygroundAddress
+    [Migration("20240925184000_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,6 +148,10 @@ namespace back.Migrations
 
                     b.Property<int>("RequiredVotesScheduleSession")
                         .HasColumnType("int");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

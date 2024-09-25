@@ -27,6 +27,10 @@ namespace back.Mappers
             {
                 Name = playgroundDto.Name,
                 Address = playgroundDto.Address,
+                Street = playgroundDto.Street,
+                City = playgroundDto.City,
+                Province = playgroundDto.Province,
+                Country = playgroundDto.Country,
                 Images = playgroundDto.Images,
                 RequiredVotesElectModerator = DefaultValues.RequiredVotesElectModerator,
                 RequiredVotesDismissModerator = DefaultValues.RequiredVotesDismissModerator,

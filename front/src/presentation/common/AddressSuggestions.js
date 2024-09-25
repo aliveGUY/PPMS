@@ -17,7 +17,7 @@ const AddressSuggestions = () => {
   const searchPlaygrounds = (suggestion) => {
     const {
       title,
-      address: { countryName, country, city },
+      address: { countryName, country, city, street },
     } = suggestion;
 
     const params = {
@@ -25,6 +25,7 @@ const AddressSuggestions = () => {
       city: city,
       province: country,
       country: countryName,
+      street: street,
     };
 
     getPlaygrounds(params);
@@ -44,8 +45,9 @@ const AddressSuggestions = () => {
       }}
     >
       <Stack>
-        {addressSuggestions.map((suggestion) => (
+        {addressSuggestions.map((suggestion, key) => (
           <Button
+            key={key}
             onClick={() => searchPlaygrounds(suggestion)}
             sx={{ justifyContent: "start", color: "black" }}
           >

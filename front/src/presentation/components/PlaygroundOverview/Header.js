@@ -2,10 +2,15 @@ import React from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import defaultImage from "../../../static/images/no_image_playground.png";
 import PlaygroundOverviewTab from "../../common/PlaygroundOverviewTab";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { id } = useParams();
+  const { name, address, id } = useSelector(
+    (state) => state.playgrounds.currentPlayground
+  );
+
+  const image = defaultImage;
+
   return (
     <Box>
       <Box
@@ -13,7 +18,7 @@ const Header = () => {
         sx={{
           width: "100%",
           height: 218,
-          backgroundImage: `url(${defaultImage})`,
+          backgroundImage: `url(${image})`,
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
@@ -23,10 +28,10 @@ const Header = () => {
       <Stack direction="row" alignItems="center" pt={3} pb={2}>
         <Box flex={1}>
           <Typography variant="h4" fontWeight={600} marginBottom="12px">
-            Святого Миколая вулиця, 9, Золочівський район
+            {name}
           </Typography>
           <Typography fontSize="14px" color="#4F7A94">
-            Ukraine, Mykolaiv
+            {address}
           </Typography>
         </Box>
         <Box>

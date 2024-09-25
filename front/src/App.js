@@ -1,8 +1,9 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Home from "./presentation/pages/Home";
+import Playground from "./presentation/pages/Playground";
+import RegisterPlayground from "./presentation/pages/RegisterPlayground";
 import Layout from "./presentation/components/Layout";
-import PlaygroundLayout from "./presentation/components/PlaygroundOverview/Layout";
 import Calendar from "./presentation/components/PlaygroundOverview/Calendar";
 import History from "./presentation/components/PlaygroundOverview/History";
 import Votings from "./presentation/components/PlaygroundOverview/Votings";
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
       },
       {
         path: "playground/:id",
-        element: <PlaygroundLayout />,
+        element: <Playground />,
         children: [
           {
             index: true,
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             element: <Votings />,
           },
         ],
+      },
+      {
+        path: "playground/new",
+        element: <RegisterPlayground />,
       },
     ],
   },

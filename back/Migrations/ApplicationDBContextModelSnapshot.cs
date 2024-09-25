@@ -146,6 +146,10 @@ namespace back.Migrations
                     b.Property<int>("RequiredVotesScheduleSession")
                         .HasColumnType("int");
 
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Playground");

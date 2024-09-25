@@ -70,7 +70,7 @@ namespace back.Controllers
         {
             var playground = await _playgroundRepo.GetByIdAsync(id);
             if (playground == null) return NotFound();
-            return Ok(playground);
+            return Ok(playground.ToPlaygroundDto());
         }
 
         [HttpPost]

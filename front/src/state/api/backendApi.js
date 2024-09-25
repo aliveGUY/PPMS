@@ -18,7 +18,23 @@ export const backendApi = createApi({
         return `/api/playground?${params.toString()}`;
       },
     }),
+
+    registerPlayground: builder.mutation({
+      query: (playgroundData) => ({
+        url: "/api/playground",
+        method: "POST",
+        body: playgroundData,
+      }),
+    }),
+
+    getPlaygroundById: builder.mutation({
+      query: (id) => `/api/playground/${id}`,
+    }),
   }),
 });
 
-export const { useGetPlaygroundsMutation } = backendApi;
+export const {
+  useGetPlaygroundsMutation,
+  useRegisterPlaygroundMutation,
+  useGetPlaygroundByIdMutation,
+} = backendApi;

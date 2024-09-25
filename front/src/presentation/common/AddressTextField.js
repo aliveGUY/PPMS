@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { IconButton, OutlinedInput } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const AddressTextField = () => {
+const AddressTextField = ({ variant = "default" }) => {
   const dispatch = useDispatch();
   const [geocode] = useGeocodeMutation();
 

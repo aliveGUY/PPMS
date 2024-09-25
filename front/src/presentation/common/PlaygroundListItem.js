@@ -3,11 +3,14 @@ import React, { useCallback } from "react";
 import defaultImage from "../../static/images/no_image_playground.png";
 import { useNavigate } from "react-router-dom";
 
-const PlaygroundListItem = () => {
+const PlaygroundListItem = ({ playground }) => {
+  const { address, images, name, id } = playground;
+  const image = images[0] || defaultImage;
+
   const navigate = useNavigate();
 
   const redirect = useCallback(() => {
-    navigate("/playground/123");
+    navigate(`/playground/${id}`);
   }, [navigate]);
 
   return (
@@ -28,7 +31,7 @@ const PlaygroundListItem = () => {
           sx={{
             width: 100,
             height: 56,
-            backgroundImage: `url(${defaultImage})`,
+            backgroundImage: `url(${image})`,
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
@@ -36,9 +39,9 @@ const PlaygroundListItem = () => {
           }}
         />
         <Box>
-          <Typography>Title</Typography>
+          <Typography>{name}</Typography>
           <Typography fontSize="14px" color="#4F7A94">
-            SubTitle
+            {address}
           </Typography>
         </Box>
       </Stack>
